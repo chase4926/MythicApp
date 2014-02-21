@@ -169,6 +169,8 @@ class FateChartApp(ttk.Frame):
     self.exc_no = StringVar(value=self.fatechart.exc_no)
     # Create & configure the widgets
     self.create_widgets()
+    # Add some padding
+    for child in self.winfo_children(): child.grid_configure(padx=4, pady=4)
 
   def create_widgets(self):
     # Static Labels
@@ -232,10 +234,8 @@ class FateChartApp(ttk.Frame):
 root = Tk()
 root.title('Mythic App')
 
-
 fatechartapp = FateChartApp(root)
 fatechartapp.grid(column=0, row=0, sticky=(N, W, E, S))
-for child in fatechartapp.winfo_children(): child.grid_configure(padx=4, pady=4)
 
 root.columnconfigure(0, weight=1)
 fatechartapp.columnconfigure(0, weight=2)
