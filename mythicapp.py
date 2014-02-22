@@ -207,13 +207,13 @@ class FateChartApp(ttk.Frame):
       self.diff_lbox.itemconfigure(i, background='#f0f0ff')
     # String labels
     ttk.Label(self, text="Exc. Yes:", font=('', 24)).grid(column=2, row=3, sticky=W)
-    ttk.Label(self, textvariable=self.exc_yes, font=('', 24)).grid(column=3, row=3, sticky=W)
+    ttk.Label(self, textvariable=self.exc_yes, font=('', 24), width=6).grid(column=3, row=3, sticky=W)
     ttk.Label(self, text="Yes:", font=('', 24)).grid(column=2, row=4, sticky=W)
-    ttk.Label(self, textvariable=self.yes, font=('', 24)).grid(column=3, row=4, sticky=W)
+    ttk.Label(self, textvariable=self.yes, font=('', 24), width=6).grid(column=3, row=4, sticky=W)
     ttk.Label(self, text="No:", font=('', 24)).grid(column=2, row=5, sticky=W)
-    ttk.Label(self, textvariable=self.no, font=('', 24)).grid(column=3, row=5, sticky=W)
+    ttk.Label(self, textvariable=self.no, font=('', 24), width=6).grid(column=3, row=5, sticky=W)
     ttk.Label(self, text="Exc. No:", font=('', 24)).grid(column=2, row=6, sticky=W)
-    ttk.Label(self, textvariable=self.exc_no, font=('', 24)).grid(column=3, row=6, sticky=W)
+    ttk.Label(self, textvariable=self.exc_no, font=('', 24), width=6).grid(column=3, row=6, sticky=W)
 
   def listbox_update(self, *args):
     active_rank = int(self.act_lbox.curselection()[0])

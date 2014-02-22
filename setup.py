@@ -11,7 +11,7 @@ if sys.platform == "win32":
     base = "Win32GUI"
 
 setup(  name = "MythicApp",
-        version = "0.3",
+        version = "0.4",
         description = "Mythic FateChart App",
         options = {"build_exe": build_exe_options},
         executables = [Executable("mythicapp.py", base=base)])
