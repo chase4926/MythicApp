@@ -48,32 +48,32 @@ class FateChart:
     num_list = [num_list.count(0), num_list.count(1), num_list.count(2), num_list.count(3)]
     if num_list[0] > 0:
       if num_list[0] == 1:
-        self.exc_yes = "Exc. Yes: 1"
+        self.exc_yes = "1"
       else:
-        self.exc_yes = "Exc. Yes: 1-%s" % (num_list[0])
+        self.exc_yes = "1-%s" % (num_list[0])
     else:
-      self.exc_yes = "Exc. Yes: --"
+      self.exc_yes = "--"
     if num_list[1] > 0:
       if num_list[0]+1 == num_list[0]+num_list[1]:
-        self.yes = "Yes: %s" % (num_list[0]+1)
+        self.yes = "%s" % (num_list[0]+1)
       else:
-        self.yes = "Yes: %s-%s" % (num_list[0]+1, num_list[0]+num_list[1])
+        self.yes = "%s-%s" % (num_list[0]+1, num_list[0]+num_list[1])
     else:
-      self.yes = "Yes: --"
+      self.yes = "--"
     if num_list[2] > 0:
       if num_list[0]+num_list[1]+1 == num_list[0]+num_list[1]+num_list[2]:
-        self.no = "No: %s" % (num_list[0]+num_list[1]+1)
+        self.no = "%s" % (num_list[0]+num_list[1]+1)
       else:
-        self.no = "No: %s-%s" % (num_list[0]+num_list[1]+1, num_list[0]+num_list[1]+num_list[2])
+        self.no = "%s-%s" % (num_list[0]+num_list[1]+1, num_list[0]+num_list[1]+num_list[2])
     else:
-      self.no = "No: --"
+      self.no = "--"
     if num_list[3] > 0:
       if num_list[0]+num_list[1]+num_list[2]+1 == num_list[0]+num_list[1]+num_list[2]+num_list[3]:
-        self.exc_no = "Exc. No: %s" % (num_list[0]+num_list[1]+num_list[2]+1)
+        self.exc_no = "%s" % (num_list[0]+num_list[1]+num_list[2]+1)
       else:
-        self.exc_no = "Exc. No: %s-%s" % (num_list[0]+num_list[1]+num_list[2]+1, num_list[0]+num_list[1]+num_list[2]+num_list[3])
+        self.exc_no = "%s-%s" % (num_list[0]+num_list[1]+num_list[2]+1, num_list[0]+num_list[1]+num_list[2]+num_list[3])
     else:
-      self.exc_no = "Exc. No: --"
+      self.exc_no = "--"
 
   def rank_within(self, rank_index):
     if 0 <= rank_index <= 12:
@@ -142,7 +142,9 @@ class FateChartApp(ttk.Frame):
       self.mod_var = mod_var
       ttk.Button(self, text='-', width=2, command=lambda: self.lower_modifier(self.mod_var)).grid(column=0, row=0, sticky=W)
       ttk.Button(self, text='+', width=2, command=lambda: self.raise_modifier(self.mod_var)).grid(column=1, row=0, sticky=W)
-      ttk.Label(self, textvariable=self.mod_var).grid(column=2, row=0, sticky=W)
+      ttk.Label(self, textvariable=self.mod_var, font=('', 14)).grid(column=2, row=0, sticky=W)
+      # Add some padding
+      for child in self.winfo_children(): child.grid_configure(padx=4, pady=4)
     def lower_modifier(self, modifier):
       if modifier.get() <= 1:
         pass
@@ -180,19 +182,15 @@ class FateChartApp(ttk.Frame):
     # Acting miniscule modifiers
     self.acting_miniscule_frame = FateChartApp.ModifierFrame(self, self.act_mini_mod)
     self.acting_miniscule_frame.grid(column=0, row=2, sticky=(N, W, E, S))
-    for child in self.acting_miniscule_frame.winfo_children(): child.grid_configure(padx=4, pady=4)
     # Difficulty miniscule modifiers
     self.difficulty_miniscule_frame = FateChartApp.ModifierFrame(self, self.diff_mini_mod)
     self.difficulty_miniscule_frame.grid(column=1, row=2, sticky=(N, W, E, S))
-    for child in self.difficulty_miniscule_frame.winfo_children(): child.grid_configure(padx=4, pady=4)
     # Acting superhuman modifiers
     self.acting_superhuman_frame = FateChartApp.ModifierFrame(self, self.act_super_mod)
     self.acting_superhuman_frame.grid(column=0, row=8, sticky=(N, W, E, S))
-    for child in self.acting_superhuman_frame.winfo_children(): child.grid_configure(padx=4, pady=4)
     # Difficulty superhuman modifiers
     self.difficulty_superhuman_frame = FateChartApp.ModifierFrame(self, self.diff_super_mod)
     self.difficulty_superhuman_frame.grid(column=1, row=8, sticky=(N, W, E, S))
-    for child in self.difficulty_superhuman_frame.winfo_children(): child.grid_configure(padx=4, pady=4)
     # Acting listbox
     self.act_lbox = Listbox(self, listvariable=self.tk_mythic_ranks, height=11, exportselection=0, font=('', 24), selectbackground='#808080')
     self.act_lbox.grid(column=0, row=3, rowspan=4, sticky=(N,S,E,W))
@@ -208,10 +206,14 @@ class FateChartApp(ttk.Frame):
     for i in range(0, len(FateChart.ranks), 2):
       self.diff_lbox.itemconfigure(i, background='#f0f0ff')
     # String labels
-    ttk.Label(self, textvariable=self.exc_yes, font=('', 24)).grid(column=2, row=3, sticky=E)
-    ttk.Label(self, textvariable=self.yes, font=('', 24)).grid(column=2, row=4, sticky=E)
-    ttk.Label(self, textvariable=self.no, font=('', 24)).grid(column=2, row=5, sticky=E)
-    ttk.Label(self, textvariable=self.exc_no, font=('', 24)).grid(column=2, row=6, sticky=E)
+    ttk.Label(self, text="Exc. Yes:", font=('', 24)).grid(column=2, row=3, sticky=W)
+    ttk.Label(self, textvariable=self.exc_yes, font=('', 24)).grid(column=3, row=3, sticky=W)
+    ttk.Label(self, text="Yes:", font=('', 24)).grid(column=2, row=4, sticky=W)
+    ttk.Label(self, textvariable=self.yes, font=('', 24)).grid(column=3, row=4, sticky=W)
+    ttk.Label(self, text="No:", font=('', 24)).grid(column=2, row=5, sticky=W)
+    ttk.Label(self, textvariable=self.no, font=('', 24)).grid(column=3, row=5, sticky=W)
+    ttk.Label(self, text="Exc. No:", font=('', 24)).grid(column=2, row=6, sticky=W)
+    ttk.Label(self, textvariable=self.exc_no, font=('', 24)).grid(column=3, row=6, sticky=W)
 
   def listbox_update(self, *args):
     active_rank = int(self.act_lbox.curselection()[0])
@@ -234,6 +236,8 @@ class FateChartApp(ttk.Frame):
 root = Tk()
 root.title('Mythic App')
 
+
+ttk.Style().configure('TButton', font="'' 14")
 fatechartapp = FateChartApp(root)
 fatechartapp.grid(column=0, row=0, sticky=(N, W, E, S))
 
@@ -241,6 +245,7 @@ root.columnconfigure(0, weight=1)
 fatechartapp.columnconfigure(0, weight=2)
 fatechartapp.columnconfigure(1, weight=2)
 fatechartapp.columnconfigure(2, weight=1)
+fatechartapp.columnconfigure(3, weight=1)
 fatechartapp.rowconfigure(0, weight=1)
 
 root.mainloop()
